@@ -1,4 +1,4 @@
-# setup-
+# setup-Zorin
 
 Zorin OS setup and installation script for apps.
 
