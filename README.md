@@ -9,7 +9,7 @@ Run the following commands to install everything:
 ```bash
 sudo apt-get update && sudo apt-get upgrade --assume-yes
 sudo apt-get install --assume-yes curl
-curl --silent https://raw.githubusercontent.com/LavakumarVeludandi/setup-/main/iZorin.sh | sudo bash
+curl --silent https://raw.githubusercontent.com/LavakumarVeludandi/setup-zorin/main/iZorin.sh | sudo bash
 ```
 
 ## What gets installed
