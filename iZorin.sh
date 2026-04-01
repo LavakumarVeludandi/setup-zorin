@@ -36,7 +36,7 @@ sudo apt-get update
 
 # Core Navigation & System Info
 sudo apt-get install -y \
-    curl tree htop btop ranger \
+    curl git tree htop btop ranger \
     ncdu duf tlp stow
 
 # Modern CLI Replacements (Rust-based/Fast)
@@ -78,6 +78,10 @@ sudo apt-get install -y \
 sudo apt-get install -y \
     default-jre default-jdk \
     lua5.1 luarocks luajit
+
+# .NET SDK (C#) — always installs the latest release via Microsoft's official script
+curl -fsSL https://dot.net/v1/dotnet-install.sh | sudo bash -s -- --channel LTS --install-dir /usr/share/dotnet
+sudo ln -sf /usr/share/dotnet/dotnet /usr/bin/dotnet
 
 # ==============================================================================
 #   5. PRODUCTIVITY, SCIENTIFIC & ENGINEERING
@@ -164,6 +168,18 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo usermod -aG docker ${USER}
+
+# Docker Desktop (GUI) — download latest release and install
+DOCKER_DESKTOP_DEB=$(mktemp --suffix=.deb)
+DOCKER_DESKTOP_URL=$(curl -fsSL https://desktop.docker.com/linux/main/amd64/appcast.xml \
+    | grep -oP 'url="[^"]*\.deb"' | head -1 | grep -oP 'https://[^"]+')
+# Fallback to a known stable URL pattern if the feed parse fails
+if [ -z "$DOCKER_DESKTOP_URL" ]; then
+    DOCKER_DESKTOP_URL="https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb"
+fi
+curl -fsSL "$DOCKER_DESKTOP_URL" -o "$DOCKER_DESKTOP_DEB"
+sudo apt-get install -y "$DOCKER_DESKTOP_DEB"
+rm -f "$DOCKER_DESKTOP_DEB"
 
 # ==============================================================================
 #   10. FINAL POLISH & CLEANUP

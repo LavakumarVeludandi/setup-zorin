@@ -14,11 +14,12 @@ curl --silent https://raw.githubusercontent.com/LavakumarVeludandi/setup-zorin/m
 
 ## What gets installed
 
-- **CLI Tools & Essentials** – curl, git, htop, btop, tmux, ranger, tree, jq, stow, lolcat, figlet, and more
-- **Productivity & Utilities** – vim, obs-studio, evolution, calcurse, pandoc, cmatrix, hollywood, and more
-- **Development Environments** – Python 3, GCC/G++/GFortran, Clang, GDB, Java (JRE/JDK), Lua, CMake, and more
-- **Scientific & Engineering** – Octave, Gnuplot, Doxygen, BLAS/LAPACK, OpenMPI, HDF5, SQLite, and more
-- **Graphics & Media** – Inkscape, GIMP, FFmpeg, ImageMagick, Kdenlive
-- **LaTeX & Documentation** – texlive-latex-extra, texlive-science, Biber, Latexmk, TeXstudio
-- **Snap apps** – Chromium, JabRef, Spotify
-- **Flatpak apps** – Pika Backup, Zen Browser
+- **External Repo Apps** – VS Code (Microsoft), Signal Messenger, Apptainer
+- **CLI Tools & Essentials** – curl, git, tree, htop, btop, ranger, ncdu, duf, tlp, stow, bat, fd-find, fzf, zoxide, jq, silversearcher-ag, rsync, figlet, sl, lolcat, cmatrix, hollywood, rename, libaa-bin, tmux, ssh, net-tools, ufw, pass, xclip, xsel
+- **Development Environments** – Python 3 (pip, venv, ipython3, jupyter), GCC/G++/GFortran, Clangd, GDB, Cppcheck, libfmt, Valgrind, Java (JRE/JDK), Lua (luarocks, luajit), .NET SDK latest (C#), CMake, Make, Ninja, pkg-config, build-essential
+- **Productivity & Scientific** – Evolution (+ EWS), Hunspell, Calcurse, todotxt-cli, Pandoc, Octave, Gnuplot, Doxygen, BLAS/LAPACK, OpenMPI, HDF5, SQLite
+- **Graphics, Media & Documentation** – Inkscape, GIMP, Kdenlive, OBS Studio, FFmpeg, ImageMagick, texlive-latex-extra, texlive-fonts-extra, texlive-science, texlive-bibtex-extra, Biber, Latexmk, TeXstudio
+- **GUI & Windows-to-Linux Essentials** – FileZilla, Remmina, Stacer, GNOME Disk Utility, GNOME Tweaks, Extension Manager, Notepadqq, Geany, p7zip, unrar
+- **Docker Engine** – docker-ce, docker-ce-cli, containerd.io, docker-buildx-plugin, docker-compose-plugin
+- **Snap apps** – Chromium, Spotify, RocketChat Desktop, GitKraken
+- **Flatpak apps** – Pika Backup, Zen Browser, LocalSend, Obsidian, Logseq, Motrix, PeaZip
