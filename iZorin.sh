@@ -36,7 +36,7 @@ sudo apt-get update
 
 # Core Navigation & System Info
 sudo apt-get install -y \
-    curl tree htop btop ranger \
+    curl git tree htop btop ranger \
     ncdu duf tlp stow
 
 # Modern CLI Replacements (Rust-based/Fast)
