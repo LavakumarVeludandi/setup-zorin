@@ -72,6 +72,65 @@ flatpak install flathub org.gnome.World.PikaBackup -y
 flatpak install flathub app.zen_browser.zen -y
 
 # ==============================================================================
+#   Windows-to-Linux Power User Essentials
+# ==============================================================================
+# File Transfer & Remote Desktop
+sudo apt-get install -y filezilla remmina 
+
+# Editors & Archivers
+sudo apt-get install -y notepadqq geany p7zip-full p7zip-rar unrar
+
+# System Maintenance
+sudo apt-get install -y stacer gnome-disk-utility
+
+# Modern GUI Apps (Flatpaks)
+flatpak install flathub com.motrix.Motrix -y        # IDM Alternative
+flatpak install flathub io.github.peazip.PeaZip -y  # 7-Zip Alternative
+flatpak install flathub com.visualstudio.code -y    # VS Code
+
+# ==============================================================================
+#   Advanced Tools & Communication
+# ==============================================================================
+
+# Messaging (Snaps)
+sudo snap install rocketchat-desktop
+sudo snap install signal-desktop
+
+# Knowledge Management (Flatpaks)
+flatpak install flathub md.obsidian.Obsidian -y
+flatpak install flathub com.logseq.Logseq -y
+
+# Utilities (Localsend & Keepass)
+flatpak install flathub org.localsend.localsend_app -y
+sudo apt-get install -y keepassxc
+
+# Git GUIs (SourceTree Alternatives)
+# Git-Cola is open source and in the repos
+sudo apt-get install -y git-cola 
+# GitKraken is a popular SourceTree-like alternative
+sudo snap install gitkraken --classic
+
+# ==============================================================================
+#   Docker Setup (Engine + Compose)
+# ==============================================================================
+# This installs the standard Docker Engine (usually preferred over Desktop on Linux)
+sudo apt-get install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$UBUNTU_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Allow running docker without 'sudo'
+sudo usermod -aG docker ${USER}
+
+# ==============================================================================
 #   Final Cleanup
 # ==============================================================================
 sudo apt-get autoremove -y
