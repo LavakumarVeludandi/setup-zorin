@@ -193,13 +193,17 @@ fi
 
 if [ -n "${SUDO_USER:-}" ] && [ "${SUDO_USER}" != "root" ]; then
     echo "Running FEniCSx environment setup as ${SUDO_USER}..."
-    RUN_AS_USER=(sudo -u "${SUDO_USER}")
+    FENICSX_RUN_AS_USER=(sudo -u "${SUDO_USER}")
 else
     echo "Running FEniCSx environment setup..."
-    RUN_AS_USER=()
+    FENICSX_RUN_AS_USER=()
 fi
 
-"${RUN_AS_USER[@]}" bash "${FENICSX_SETUP_TMP}"
+"${FENICSX_RUN_AS_USER[@]}" bash "${FENICSX_SETUP_TMP}" || {
+    echo "FEniCSx environment setup failed." >&2
+    rm -f "${FENICSX_SETUP_TMP}"
+    exit 1
+}
 rm -f "${FENICSX_SETUP_TMP}"
 
 echo "----------------------------------------------------------------"
