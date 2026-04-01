@@ -16,7 +16,7 @@ curl --silent https://raw.githubusercontent.com/LavakumarVeludandi/setup-zorin/m
 
 - **External Repo Apps** – VS Code (Microsoft), Signal Messenger, Apptainer
 - **CLI Tools & Essentials** – curl, git, tree, htop, btop, ranger, ncdu, duf, tlp, stow, bat, fd-find, fzf, zoxide, jq, silversearcher-ag, rsync, figlet, sl, lolcat, cmatrix, hollywood, rename, libaa-bin, tmux, ssh, net-tools, ufw, pass, xclip, xsel
-- **Development Environments** – Python 3 (pip, venv, ipython3, jupyter), GCC/G++/GFortran, Clangd, GDB, Cppcheck, libfmt, Valgrind, Java (JRE/JDK), Lua (luarocks, luajit), CMake, Make, Ninja, pkg-config, build-essential
+- **Development Environments** – Python 3 (pip, venv, ipython3, jupyter), GCC/G++/GFortran, Clangd, GDB, Cppcheck, libfmt, Valgrind, Java (JRE/JDK), Lua (luarocks, luajit), .NET SDK 9 (C#), CMake, Make, Ninja, pkg-config, build-essential
 - **Productivity & Scientific** – Evolution (+ EWS), Hunspell, Calcurse, todotxt-cli, Pandoc, Octave, Gnuplot, Doxygen, BLAS/LAPACK, OpenMPI, HDF5, SQLite
 - **Graphics, Media & Documentation** – Inkscape, GIMP, Kdenlive, OBS Studio, FFmpeg, ImageMagick, texlive-latex-extra, texlive-fonts-extra, texlive-science, texlive-bibtex-extra, Biber, Latexmk, TeXstudio
 - **GUI & Windows-to-Linux Essentials** – FileZilla, Remmina, Stacer, GNOME Disk Utility, GNOME Tweaks, Extension Manager, Notepadqq, Geany, p7zip, unrar

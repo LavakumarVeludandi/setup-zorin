@@ -14,10 +14,11 @@ sudo apt-get install -y \
 #   2. EXTERNAL REPOS (Native APT over Flatpak/Snap)
 # ==============================================================================
 
-# VS Code (Microsoft Official)
+# VS Code & .NET SDK (Microsoft Official — shared GPG key)
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
 sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
 sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/dotnet stable main" > /etc/apt/sources.list.d/dotnet.list'
 rm -f packages.microsoft.gpg
 
 # Signal Messenger (Official)
@@ -78,6 +79,9 @@ sudo apt-get install -y \
 sudo apt-get install -y \
     default-jre default-jdk \
     lua5.1 luarocks luajit
+
+# .NET SDK (C#)
+sudo apt-get install -y dotnet-sdk-9.0
 
 # ==============================================================================
 #   5. PRODUCTIVITY, SCIENTIFIC & ENGINEERING
