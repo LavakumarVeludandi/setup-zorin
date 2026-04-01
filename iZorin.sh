@@ -169,6 +169,18 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo usermod -aG docker ${USER}
 
+# Docker Desktop (GUI) — download latest release and install
+DOCKER_DESKTOP_DEB=$(mktemp --suffix=.deb)
+DOCKER_DESKTOP_URL=$(curl -fsSL https://desktop.docker.com/linux/main/amd64/appcast.xml \
+    | grep -oP 'url="[^"]*\.deb"' | head -1 | grep -oP 'https://[^"]+')
+# Fallback to a known stable URL pattern if the feed parse fails
+if [ -z "$DOCKER_DESKTOP_URL" ]; then
+    DOCKER_DESKTOP_URL="https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb"
+fi
+curl -fsSL "$DOCKER_DESKTOP_URL" -o "$DOCKER_DESKTOP_DEB"
+sudo apt-get install -y "$DOCKER_DESKTOP_DEB"
+rm -f "$DOCKER_DESKTOP_DEB"
+
 # ==============================================================================
 #   10. FINAL POLISH & CLEANUP
 # ==============================================================================
