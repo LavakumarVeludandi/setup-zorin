@@ -183,14 +183,24 @@ sudo apt-get autoremove -y
 #   11. FENICSX ENVIRONMENT SETUP
 # ==============================================================================
 FENICSX_SETUP_URL="https://raw.githubusercontent.com/LavakumarVeludandi/setup-zorin/master/fenicsx/setup_fenicsx_envs.sh"
+FENICSX_SETUP_TMP="$(mktemp)"
+
+if ! curl -fsSL "${FENICSX_SETUP_URL}" -o "${FENICSX_SETUP_TMP}"; then
+    echo "Failed to download FEniCSx setup script from ${FENICSX_SETUP_URL}" >&2
+    rm -f "${FENICSX_SETUP_TMP}"
+    exit 1
+fi
 
 if [ -n "${SUDO_USER:-}" ] && [ "${SUDO_USER}" != "root" ]; then
     echo "Running FEniCSx environment setup as ${SUDO_USER}..."
-    sudo -u "${SUDO_USER}" bash -c "curl --silent \"${FENICSX_SETUP_URL}\" | bash"
+    RUN_AS_USER=(sudo -u "${SUDO_USER}")
 else
     echo "Running FEniCSx environment setup..."
-    curl --silent "${FENICSX_SETUP_URL}" | bash
+    RUN_AS_USER=()
 fi
+
+"${RUN_AS_USER[@]}" bash "${FENICSX_SETUP_TMP}"
+rm -f "${FENICSX_SETUP_TMP}"
 
 echo "----------------------------------------------------------------"
 echo "INSTALLATION COMPLETE"
