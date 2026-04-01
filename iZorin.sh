@@ -80,7 +80,7 @@ sudo apt-get install -y \
     lua5.1 luarocks luajit
 
 # .NET SDK (C#) — always installs the latest release via Microsoft's official script
-curl -fsSL https://dot.net/v1/dotnet-install.sh | sudo bash -s -- --channel STS --install-dir /usr/share/dotnet
+curl -fsSL https://dot.net/v1/dotnet-install.sh | sudo bash -s -- --channel LTS --install-dir /usr/share/dotnet
 sudo ln -sf /usr/share/dotnet/dotnet /usr/bin/dotnet
 
 # ==============================================================================
