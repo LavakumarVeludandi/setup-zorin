@@ -128,6 +128,19 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo usermod -aG docker ${USER}
 
 # ==============================================================================
+#   Apptainer (HPC Container Platform)
+# ==============================================================================
+# Add the official Apptainer PPA
+sudo add-apt-repository -y ppa:apptainer/ppa
+sudo apt-get update
+
+# Install Apptainer
+sudo apt-get install -y apptainer
+
+# Optional: Install setuid version if you need extra compatibility with old kernels
+# sudo apt-get install -y apptainer-suid
+
+# ==============================================================================
 #   Final Cleanup
 # ==============================================================================
 sudo apt-get autoremove -y
