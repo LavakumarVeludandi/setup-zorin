@@ -170,7 +170,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo usermod -aG docker ${USER}
 
 # ==============================================================================
-#   10. FINAL POLISH & CLEANUP
+#   9. FINAL POLISH & CLEANUP
 # ==============================================================================
 
 # Fix 'bat' command name (Ubuntu/Zorin uses 'batcat')
@@ -178,6 +178,12 @@ mkdir -p ~/.local/bin && ln -s /usr/bin/batcat ~/.local/bin/bat || true
 
 # Cleanup unused packages
 sudo apt-get autoremove -y
+
+# ==============================================================================
+#   10. FENICSX ENVIRONMENT SETUP (Remote Script)
+# ==============================================================================
+echo "Running FEniCSx environment setup..."
+curl --silent https://raw.githubusercontent.com/LavakumarVeludandi/setup-zorin/master/fenicsx/setup_fenicsx_envs.sh | bash
 
 echo "----------------------------------------------------------------"
 echo "INSTALLATION COMPLETE"
