@@ -179,6 +179,19 @@ mkdir -p ~/.local/bin && ln -s /usr/bin/batcat ~/.local/bin/bat || true
 # Cleanup unused packages
 sudo apt-get autoremove -y
 
+# ==============================================================================
+#   11. FENICSX ENVIRONMENT SETUP
+# ==============================================================================
+FENICSX_SETUP_URL="https://raw.githubusercontent.com/LavakumarVeludandi/setup-zorin/master/fenicsx/setup_fenicsx_envs.sh"
+
+if [ -n "${SUDO_USER:-}" ] && [ "${SUDO_USER}" != "root" ]; then
+    echo "Running FEniCSx environment setup as ${SUDO_USER}..."
+    sudo -u "${SUDO_USER}" bash -c "curl --silent \"${FENICSX_SETUP_URL}\" | bash"
+else
+    echo "Running FEniCSx environment setup..."
+    curl --silent "${FENICSX_SETUP_URL}" | bash
+fi
+
 echo "----------------------------------------------------------------"
 echo "INSTALLATION COMPLETE"
 echo "Note: Please REBOOT to apply Docker permissions and TLP settings."
