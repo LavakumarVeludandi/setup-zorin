@@ -84,7 +84,6 @@ sudo apt-get install -y notepadqq geany p7zip-full p7zip-rar unrar
 sudo apt-get install -y stacer gnome-disk-utility
 
 # Modern GUI Apps (Flatpaks)
-flatpak install flathub com.motrix.Motrix -y        # IDM Alternative
 flatpak install flathub io.github.peazip.PeaZip -y  # 7-Zip Alternative
 flatpak install flathub com.visualstudio.code -y    # VS Code
 
@@ -105,8 +104,6 @@ flatpak install flathub org.localsend.localsend_app -y
 sudo apt-get install -y keepassxc
 
 # Git GUIs (SourceTree Alternatives)
-# Git-Cola is open source and in the repos
-sudo apt-get install -y git-cola 
 # GitKraken is a popular SourceTree-like alternative
 sudo snap install gitkraken --classic
 
