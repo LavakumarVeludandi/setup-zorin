@@ -63,7 +63,28 @@ ensure_conda_init() {
     return 0
   fi
 
-  "$MINICONDA_DIR/bin/conda" init bash
+  if "$MINICONDA_DIR/bin/conda" init bash; then
+    return 0
+  fi
+
+  ensure_bashrc_conda
+}
+
+ensure_bashrc_conda() {
+  local bashrc="$HOME/.bashrc"
+  local marker="# >>> shakedown_lab conda setup >>>"
+
+  if [[ -f "$bashrc" ]] && grep -q "$marker" "$bashrc"; then
+    return 0
+  fi
+
+  cat >> "$bashrc" <<'EOF'
+# >>> shakedown_lab conda setup >>>
+if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+  . "$HOME/miniconda3/etc/profile.d/conda.sh"
+fi
+# <<< shakedown_lab conda setup <<<
+EOF
 }
 
 install_miniconda() {
@@ -133,3 +154,4 @@ create_env "$ENV_10_NAME" "$PY_10" "0.10.*"
 echo "Done. Activate with:"
 echo "  conda activate $ENV_09_NAME"
 echo "  conda activate $ENV_10_NAME"
+echo "Note: run 'source ~/.bashrc' or open a new terminal to use conda in your shell."
