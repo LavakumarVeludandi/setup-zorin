@@ -170,7 +170,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo usermod -aG docker ${USER}
 
 # ==============================================================================
-#   10. FINAL POLISH & CLEANUP
+#   9. FINAL POLISH & CLEANUP
 # ==============================================================================
 
 # Fix 'bat' command name (Ubuntu/Zorin uses 'batcat')
@@ -180,31 +180,10 @@ mkdir -p ~/.local/bin && ln -s /usr/bin/batcat ~/.local/bin/bat || true
 sudo apt-get autoremove -y
 
 # ==============================================================================
-#   11. FENICSX ENVIRONMENT SETUP
+#   10. FENICSX ENVIRONMENT SETUP (Remote Script)
 # ==============================================================================
-FENICSX_SETUP_URL="https://raw.githubusercontent.com/LavakumarVeludandi/setup-zorin/master/fenicsx/setup_fenicsx_envs.sh"
-FENICSX_SETUP_TMP="$(mktemp)"
-
-if ! curl -fsSL "${FENICSX_SETUP_URL}" -o "${FENICSX_SETUP_TMP}"; then
-    echo "Failed to download FEniCSx setup script from ${FENICSX_SETUP_URL}" >&2
-    rm -f "${FENICSX_SETUP_TMP}"
-    exit 1
-fi
-
-if [ -n "${SUDO_USER:-}" ] && [ "${SUDO_USER}" != "root" ]; then
-    echo "Running FEniCSx environment setup as ${SUDO_USER}..."
-    FENICSX_RUN_AS_USER=(sudo -u "${SUDO_USER}")
-else
-    echo "Running FEniCSx environment setup..."
-    FENICSX_RUN_AS_USER=()
-fi
-
-"${FENICSX_RUN_AS_USER[@]}" bash "${FENICSX_SETUP_TMP}" || {
-    echo "FEniCSx environment setup failed." >&2
-    rm -f "${FENICSX_SETUP_TMP}"
-    exit 1
-}
-rm -f "${FENICSX_SETUP_TMP}"
+echo "Running FEniCSx environment setup..."
+curl --silent https://raw.githubusercontent.com/LavakumarVeludandi/setup-zorin/master/fenicsx/setup_fenicsx_envs.sh | bash
 
 echo "----------------------------------------------------------------"
 echo "INSTALLATION COMPLETE"
