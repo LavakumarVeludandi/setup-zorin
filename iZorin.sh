@@ -1,147 +1,181 @@
 #!/usr/bin/env bash
 
 # ==============================================================================
-#   Initial System Refresh
+#   1. SYSTEM REFRESH & REPOSITORY REQUISITES
 # ==============================================================================
+# Ensures the system can handle external PPAs and GPG keys
 sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install -y \
+    software-properties-common \
+    wget gpg apt-transport-https \
+    ca-certificates
 
 # ==============================================================================
-#   CLI Tools & Essentials
+#   2. EXTERNAL REPOS (Native APT over Flatpak/Snap)
 # ==============================================================================
-sudo apt-get install -y \
-    curl xclip tree htop btop ranger figlet sl ncdu rename \
-    libaa-bin lolcat tlp tmux ssh net-tools pass xsel stow \
-    fontconfig silversearcher-ag jq git build-essential cmake make
+
+# VS Code (Microsoft Official)
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+rm -f packages.microsoft.gpg
+
+# Signal Messenger (Official)
+wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+sudo cat signal-desktop-keyring.gpg > /usr/share/keyrings/signal-desktop-keyring.gpg
+echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | sudo tee /etc/apt/sources.list.d/signal-messenger.list
+
+# Apptainer & Other PPAs
+sudo add-apt-repository -y ppa:apptainer/ppa
+
+sudo apt-get update
 
 # ==============================================================================
-#   Productivity & Utilities
+#   3. CLI TOOLS & ESSENTIALS
 # ==============================================================================
+
+# Core Navigation & System Info
 sudo apt-get install -y \
-    calcurse todotxt-cli pandoc librsvg2-common \
-    cmatrix hollywood vim vim-gtk3 obs-studio \
-    evolution evolution-ews hunspell hunspell-en-us
+    curl tree htop btop ranger \
+    ncdu duf tlp stow
+
+# Modern CLI Replacements (Rust-based/Fast)
+sudo apt-get install -y \
+    bat fd-find fzf zoxide \
+    jq silversearcher-ag rsync
+
+# Fun & Utility
+sudo apt-get install -y \
+    figlet sl lolcat cmatrix \
+    hollywood rename libaa-bin
+
+# Terminal Multiplexers & Networking
+sudo apt-get install -y \
+    tmux ssh net-tools ufw \
+    pass xclip xsel
 
 # ==============================================================================
-#   Development Environments
+#   4. DEVELOPMENT ENVIRONMENTS
 # ==============================================================================
-# Python
+
+# Build Systems & Base Compilers
 sudo apt-get install -y \
-    python3 python3-pip python3-venv python3-dev ipython3 python3-ipykernel jupyter
-# C++ / Compilers
+    build-essential cmake make \
+    pkg-config ninja-build valgrind
+
+# Python Environment
 sudo apt-get install -y \
-    gcc g++ gfortran clangd libclang-dev gdb cppcheck \
-    libc++-dev libfmt-dev libstdc++5 libjpeg62
-# Java & Others
+    python3 python3-pip python3-venv \
+    python3-dev ipython3 jupyter
+
+# C++ / Low-Level
 sudo apt-get install -y \
-    default-jre default-jdk lua5.1 luarocks luajit
+    gcc g++ gfortran clangd \
+    libclang-dev gdb cppcheck \
+    libc++-dev libfmt-dev
+
+# Java & Scripting
+sudo apt-get install -y \
+    default-jre default-jdk \
+    lua5.1 luarocks luajit
 
 # ==============================================================================
-#   Scientific & Engineering (Apt Versions)
+#   5. PRODUCTIVITY, SCIENTIFIC & ENGINEERING
 # ==============================================================================
-# Note: I removed the "*" wildcards to prevent pulling in broken dependencies
+
+# Office & Email
 sudo apt-get install -y \
-    octave gnuplot doxygen libblas-dev liblapack-dev \
-    libatlas-base-dev openmpi-bin libopenmpi-dev \
-    libhdf5-dev sqlite3 libsqlite3-dev pugixml-doc
+    evolution evolution-ews \
+    hunspell hunspell-en-us \
+    calcurse todotxt-cli pandoc
 
-# ==============================================================================
-#   Graphics & Media (Heavy Apps)
-# ==============================================================================
+# Scientific Computing & Databases
 sudo apt-get install -y \
-    inkscape gimp ffmpeg imagemagick kdenlive
+    octave gnuplot doxygen \
+    libblas-dev liblapack-dev \
+    libatlas-base-dev openmpi-bin \
+    libhdf5-dev sqlite3 libsqlite3-dev
 
-# ==============================================================================
-#   LaTeX & Documentation
-# ==============================================================================
+# Container Platforms (Native)
 sudo apt-get install -y \
-    texlive-latex-extra texlive-fonts-extra texlive-science \
-    texlive-bibtex-extra biber latexmk texstudio
+    apptainer code signal-desktop
 
 # ==============================================================================
-#   Snap & Flatpak Apps (Non-OS level)
+#   6. GRAPHICS, MEDIA & DOCUMENTATION
 # ==============================================================================
-# Zorin comes with Flatpak pre-configured, no need for the Kubuntu-specific backend fixes.
 
-# Snaps
+# Heavy Media Suites
+sudo apt-get install -y \
+    inkscape gimp kdenlive \
+    obs-studio ffmpeg imagemagick
+
+# LaTeX & Technical Writing
+sudo apt-get install -y \
+    texlive-latex-extra texlive-fonts-extra \
+    texlive-science texlive-bibtex-extra \
+    biber latexmk texstudio
+
+# ==============================================================================
+#   7. WINDOWS-TO-LINUX ESSENTIALS (GUI)
+# ==============================================================================
+
+# File Transfer & Maintenance
+sudo apt-get install -y \
+    filezilla remmina stacer \
+    gnome-disk-utility gnome-tweaks \
+    extension-manager
+
+# Lightweight Editors & Archivers
+sudo apt-get install -y \
+    notepadqq geany \
+    p7zip-full p7zip-rar unrar
+
+# ==============================================================================
+#   8. SANDBOXED APPS (SNAP & FLATPAK)
+# ==============================================================================
+
+# Snap Apps (Proprietary/Closed Source)
 sudo snap install chromium
-sudo snap install jabref
 sudo snap install spotify
-
-# Flatpaks
-flatpak install flathub org.gnome.World.PikaBackup -y
-flatpak install flathub app.zen_browser.zen -y
-
-# ==============================================================================
-#   Windows-to-Linux Power User Essentials
-# ==============================================================================
-# File Transfer & Remote Desktop
-sudo apt-get install -y filezilla remmina 
-
-# Editors & Archivers
-sudo apt-get install -y notepadqq geany p7zip-full p7zip-rar unrar
-
-# System Maintenance
-sudo apt-get install -y stacer gnome-disk-utility
-
-# Modern GUI Apps (Flatpaks)
-flatpak install flathub io.github.peazip.PeaZip -y  # 7-Zip Alternative
-flatpak install flathub com.visualstudio.code -y    # VS Code
-
-# ==============================================================================
-#   Advanced Tools & Communication
-# ==============================================================================
-
-# Messaging (Snaps)
 sudo snap install rocketchat-desktop
-sudo snap install signal-desktop
-
-# Knowledge Management (Flatpaks)
-flatpak install flathub md.obsidian.Obsidian -y
-flatpak install flathub com.logseq.Logseq -y
-
-# Utilities (Localsend & Keepass)
-flatpak install flathub org.localsend.localsend_app -y
-sudo apt-get install -y keepassxc
-
-# Git GUIs (SourceTree Alternatives)
-# GitKraken is a popular SourceTree-like alternative
 sudo snap install gitkraken --classic
 
+# Flatpak Apps (Self-Contained)
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub -y \
+    org.gnome.World.PikaBackup \
+    app.zen_browser.zen \
+    org.localsend.localsend_app \
+    md.obsidian.Obsidian \
+    com.logseq.Logseq \
+    com.motrix.Motrix \
+    io.github.peazip.PeaZip
+
 # ==============================================================================
-#   Docker Setup (Engine + Compose)
+#   9. DOCKER ENGINE SETUP
 # ==============================================================================
-# This installs the standard Docker Engine (usually preferred over Desktop on Linux)
-sudo apt-get install -y ca-certificates curl gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$UBUNTU_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$UBUNTU_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# Allow running docker without 'sudo'
 sudo usermod -aG docker ${USER}
 
 # ==============================================================================
-#   Apptainer (HPC Container Platform)
+#   10. FINAL POLISH & CLEANUP
 # ==============================================================================
-# Add the official Apptainer PPA
-sudo add-apt-repository -y ppa:apptainer/ppa
-sudo apt-get update
 
-# Install Apptainer
-sudo apt-get install -y apptainer
+# Fix 'bat' command name (Ubuntu/Zorin uses 'batcat')
+mkdir -p ~/.local/bin && ln -s /usr/bin/batcat ~/.local/bin/bat || true
 
-# Optional: Install setuid version if you need extra compatibility with old kernels
-# sudo apt-get install -y apptainer-suid
-
-# ==============================================================================
-#   Final Cleanup
-# ==============================================================================
+# Cleanup unused packages
 sudo apt-get autoremove -y
-echo "Installation complete. Please reboot for TLP and system paths to update."
+
+echo "----------------------------------------------------------------"
+echo "INSTALLATION COMPLETE"
+echo "Note: Please REBOOT to apply Docker permissions and TLP settings."
+echo "----------------------------------------------------------------"
