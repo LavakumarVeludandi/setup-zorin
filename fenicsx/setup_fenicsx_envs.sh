@@ -56,6 +56,16 @@ ensure_curl() {
   fi
 }
 
+ensure_conda_init() {
+  local bashrc="$HOME/.bashrc"
+
+  if [[ -f "$bashrc" ]] && grep -q "conda initialize" "$bashrc"; then
+    return 0
+  fi
+
+  "$MINICONDA_DIR/bin/conda" init bash
+}
+
 install_miniconda() {
   if [[ -x "$MINICONDA_DIR/bin/conda" ]]; then
     return 0
@@ -76,6 +86,7 @@ init_conda() {
     source "$(conda info --base)/etc/profile.d/conda.sh"
   else
     install_miniconda
+    ensure_conda_init
     # shellcheck source=/dev/null
     source "$MINICONDA_DIR/etc/profile.d/conda.sh"
   fi
